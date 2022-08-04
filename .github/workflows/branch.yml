@@ -1,0 +1,32 @@
+name: Validate Branch Name
+
+# Controls when the action will run. 
+on:
+  push:
+    branches-ignore:
+    - 'master'
+    - 'develop'
+    - 'main'
+    - 'auxiliary/**'
+    - 'bugfix/**'
+    - 'codedrop/**'
+    - 'feature/**'
+    - 'project/**'
+    - 'release/**'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  validate:
+    name: Validate Branch Name
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    - name: Branch name rules
+      uses: deepakputhraya/action-branch-name@v1.0.0
+      with:
+        regex: '^(?:(?:auxiliary)|(?:bugfix)|(?:codedrop)|(?:feature)|(?:project)|(?:release))\/[a-zA-Z0-9-_]+$' # Regex the branch should match.
+        allowed_prefixes: 'auxiliary,bugfix,codedrop,feature,project,release' # All branches should start with the given prefix
+        ignore: master,develop,main # Ignore exactly matching branch names from convention
+        # min_length: 5 # Min length of the branch name
+        # max_length: 20 # Max length of the branch name
